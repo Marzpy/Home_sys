@@ -1,0 +1,5 @@
+D:/praca/projekty/Home_sys/Home_sys/build/debug/CMakeFiles/Home_sys.dir
+D:/praca/projekty/Home_sys/Home_sys/build/debug/CMakeFiles/edit_cache.dir
+D:/praca/projekty/Home_sys/Home_sys/build/debug/CMakeFiles/rebuild_cache.dir
+D:/praca/projekty/Home_sys/Home_sys/build/debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+D:/praca/projekty/Home_sys/Home_sys/build/debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
