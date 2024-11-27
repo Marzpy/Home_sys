@@ -18,12 +18,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "i2c_lcd.h"
+#include <stdbool.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,12 +47,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile uint8_t motionDetected = 0;
+volatile uint32_t lastMotionTick = 0; 
+ struct lcd_disp disp;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -67,7 +71,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+   
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -89,22 +93,39 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-
-  /* Initialize interrupts */
-  MX_NVIC_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
+
+
+ disp.addr = (0x27 << 1);
+   disp.bl = true;
+   lcd_init(&disp);
+   sprintf((char *)disp.f_line, "To 1. linia");
+   sprintf((char *)disp.s_line, "a to druga linia");
+   lcd_display(&disp);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	  HAL_Delay(150);
+	  HAL_Delay(1000);
+
+	  // Wyświetlanie tekstu
+	  sprintf((char *)disp.f_line, "Test linii 1");
+	  	  sprintf((char *)disp.s_line, "wyswietlanie 2");
+	  	  HAL_Delay(500);
+	  	  lcd_display(&disp);
+	  	  sprintf((char *)disp.f_line, "");
+	  	  sprintf((char *)disp.s_line, " Sprawdzanie linii 2");
+	  	  HAL_Delay(500);
+	  	  lcd_display(&disp);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
   }
   /* USER CODE END 3 */
 }
@@ -147,26 +168,49 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
 }
 
-/**
-  * @brief NVIC Configuration.
-  * @retval None
-  */
-static void MX_NVIC_Init(void)
-{
-  /* EXTI9_5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
-}
-
 /* USER CODE BEGIN 4 */
+
+/*
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//void EXTI0_IRQHandler(void) {
+{
+    if (GPIO_Pin == PIR_Pin)  // Jeśli przerwanie jest od czujnika PIR
+    {
+        if (HAL_GPIO_ReadPin(PIR_GPIO_Port, PIR_Pin) == GPIO_PIN_SET)
+        {
+            motionDetected = 1;                     // Ustaw flagę wykrycia ruchu
+            lastMotionTick = HAL_GetTick();         // Zapisz czas wykrycia ruchu
+        }
+    }
+}
+*/
+/*
+volatile uint32_t lastPirTick = 0;  // Czas ostatniego wyzwolenia przerwania
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == PIR_Pin)  // Jeśli przerwanie jest od czujnika PIR
+    {
+        uint32_t currentTick = HAL_GetTick();
+
+        // Mechanizm anty-szumowy (debouncing) - ignoruj kolejne przerwania przez 500 ms
+        if ((currentTick - lastPirTick) > 500)
+        {
+            HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);  // Przełącz stan diody LED
+            lastPirTick = currentTick;                  // Zapisz czas wyzwolenia
+        }
+    }
+}
+*/
 
 /* USER CODE END 4 */
 
