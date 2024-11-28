@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
@@ -27,6 +28,7 @@
 #include "i2c_lcd.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include "GFX.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,6 +52,7 @@
 volatile uint8_t motionDetected = 0;
 volatile uint32_t lastMotionTick = 0; 
  struct lcd_disp disp;
+ 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -92,18 +95,28 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
+  SSD1306_init();
+  //GFX_draw_fill_rect(0, 0, 64, 32, WHITE);
+  //GFX_draw_fill_rect(64, 32, 64, 32, WHITE);
+  //GFX_draw_string(0, 25, (unsigned char *)"g\313\317", WHITE, BLACK, 2, 2);
+  //GFX_draw_string(0, 0, (unsigned char *)"\311\312\313\314\315\316\317\320\321", WHITE, BLACK, 2, 2);
+  GFX_draw_string(3, 25, (unsigned char *)"***** ***", WHITE, BLACK, 2, 2);
+  SSD1306_display_repaint();
 
 
- disp.addr = (0x27 << 1);
-   disp.bl = true;
-   lcd_init(&disp);
-   sprintf((char *)disp.f_line, "To 1. linia");
-   sprintf((char *)disp.s_line, "a to druga linia");
-   lcd_display(&disp);
+//LCD 16x2
+//  disp.addr = (0x27 << 1);
+//    disp.bl = true;
+//    lcd_init(&disp);
+//    sprintf((char *)disp.f_line, "To 1. linia");
+//    sprintf((char *)disp.s_line, "a to druga linia");
+//    lcd_display(&disp);
+//////
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,14 +126,18 @@ int main(void)
 	  HAL_Delay(1000);
 
 	  // Wyświetlanie tekstu
-	  sprintf((char *)disp.f_line, "Test linii 1");
-	  	  sprintf((char *)disp.s_line, "wyswietlanie 2");
-	  	  HAL_Delay(500);
-	  	  lcd_display(&disp);
-	  	  sprintf((char *)disp.f_line, "");
-	  	  sprintf((char *)disp.s_line, " Sprawdzanie linii 2");
-	  	  HAL_Delay(500);
-	  	  lcd_display(&disp);
+
+    ///16x2
+	  // sprintf((char *)disp.f_line, "Test linii 1");
+	  // 	  sprintf((char *)disp.s_line, "wyswietlanie 2");
+	  // 	  HAL_Delay(500);
+	  // 	  lcd_display(&disp);
+	  // 	  sprintf((char *)disp.f_line, "");
+	  // 	  sprintf((char *)disp.s_line, " Sprawdzanie linii 2");
+	  // 	  HAL_Delay(500);
+	  // 	  lcd_display(&disp);
+    ///16x2
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

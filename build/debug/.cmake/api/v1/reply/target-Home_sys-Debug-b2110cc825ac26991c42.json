@@ -33,13 +33,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 73,
+				"line" : 75,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 59,
+				"line" : 61,
 				"parent" : 0
 			},
 			{
@@ -150,7 +150,10 @@
 				23,
 				24,
 				25,
-				26
+				26,
+				27,
+				28,
+				29
 			]
 		},
 		{
@@ -217,7 +220,7 @@
 			"language" : "ASM",
 			"sourceIndexes" : 
 			[
-				27
+				30
 			]
 		}
 	],
@@ -276,14 +279,17 @@
 				23,
 				24,
 				25,
-				26
+				26,
+				27,
+				28,
+				29
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				27
+				30
 			]
 		}
 	],
@@ -304,7 +310,25 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
+			"path" : "Core/Src/dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/SSD1306.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
 			"path" : "Core/Src/gpio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/GFX.c",
 			"sourceGroupIndex" : 0
 		},
 		{
