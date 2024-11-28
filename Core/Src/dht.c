@@ -143,7 +143,6 @@ uint8_t DHT_Read (void)
 void DHT_GetData(DHT_DataTypedef *DHT_Data)
 {
     char uart_buf[100]; 
-    char uart_buf3[100];
     char uart_buf2[100]; // Bufor tekstowy dla UART
 
     DHT_Start();
