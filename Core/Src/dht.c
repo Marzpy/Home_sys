@@ -115,9 +115,9 @@ uint8_t DHT_Check_Response(void)
     }
     while ((HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)));   // czekaj na niski stan
 
-    // Wyrzucenie na UART dla debugowania
-    //sprintf(uart_buf, "Response: %d\r\n", Response);
-    //HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+     Wyrzucenie na UART dla debugowania
+    sprintf(uart_buf, "Response: %d\r\n", Response);
+    HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
 
     return Response;
 }
