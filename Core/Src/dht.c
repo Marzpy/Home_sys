@@ -100,6 +100,7 @@ void DHT_Start (void)
 	Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
 }
 
+<<<<<<< HEAD
 // void DHT_Start(void)
 // {
 //  /****************************************************/
@@ -133,6 +134,13 @@ uint8_t DHT_Check_Response(void)
     uint8_t Response = 0;
     delay(40);
 
+=======
+uint8_t DHT_Check_Response(void)
+{
+    uint8_t Response = 0;
+    delay(40);
+
+>>>>>>> ea5ffebb7b2380fb2ffe99a64204362398866177
     if (!(HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)))
     {
         delay(80);
@@ -143,9 +151,15 @@ uint8_t DHT_Check_Response(void)
     }
     while ((HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)));   // czekaj na niski stan
 
+<<<<<<< HEAD
     // Wyrzucenie na UART dla debugowania
     //sprintf(uart_buf, "Response: %d\r\n", Response);
     //HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+=======
+     Wyrzucenie na UART dla debugowania
+    sprintf(uart_buf, "Response: %d\r\n", Response);
+    HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+>>>>>>> ea5ffebb7b2380fb2ffe99a64204362398866177
 
     return Response;
 }
@@ -170,12 +184,21 @@ uint8_t DHT_Read (void)
 
 void DHT_GetData(DHT_DataTypedef *DHT_Data)
 {
+<<<<<<< HEAD
 
     char uart_buf2[100]; // Bufor tekstowy dla UART
 
     DHT_Start();
     Presence = DHT_Check_Response();
 
+=======
+    char uart_buf[100]; 
+    char uart_buf2[100]; // Bufor tekstowy dla UART
+
+    DHT_Start();
+    Presence = DHT_Check_Response();
+
+>>>>>>> ea5ffebb7b2380fb2ffe99a64204362398866177
     if (Presence == 1) {
         // Odczytujemy dane z czujnika
         Rh_byte1 = DHT_Read();
@@ -211,4 +234,8 @@ void DHT_GetData(DHT_DataTypedef *DHT_Data)
         sprintf(uart_buf2, "No response from DHT sensor.\r\n");
         HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ea5ffebb7b2380fb2ffe99a64204362398866177
