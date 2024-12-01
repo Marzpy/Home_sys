@@ -100,20 +100,28 @@ void DHT_Start (void)
 	Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
 }
 
-uint8_t DHT_Check_Response (void)
+uint8_t DHT_Check_Response(void)
 {
-	uint8_t Response = 0;
-	delay (40);
-	if (!(HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN)))
-	{
-		delay (80);
-		if ((HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN))) Response = 1;
-		else Response = -1;
-	}
-	while ((HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN)));   // wait for the pin to go low
+    uint8_t Response = 0;
+    delay(40);
 
-	return Response;
+    if (!(HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)))
+    {
+        delay(80);
+        if ((HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN))) 
+            Response = 1;
+        else 
+            Response = -1;
+    }
+    while ((HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)));   // czekaj na niski stan
+
+     Wyrzucenie na UART dla debugowania
+    sprintf(uart_buf, "Response: %d\r\n", Response);
+    HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+
+    return Response;
 }
+
 
 uint8_t DHT_Read (void)
 {
@@ -132,30 +140,47 @@ uint8_t DHT_Read (void)
 	return i;
 }
 
-
-
-void DHT_GetData (DHT_DataTypedef *DHT_Data)
+void DHT_GetData(DHT_DataTypedef *DHT_Data)
 {
-    DHT_Start ();
-	Presence = DHT_Check_Response ();
-	Rh_byte1 = DHT_Read ();
-	Rh_byte2 = DHT_Read ();
-	Temp_byte1 = DHT_Read ();
-	Temp_byte2 = DHT_Read ();
-	SUM = DHT_Read();
+    char uart_buf[100]; 
+    char uart_buf2[100]; // Bufor tekstowy dla UART
 
-	if (SUM == (Rh_byte1+Rh_byte2+Temp_byte1+Temp_byte2))
-	{
-		#if defined(TYPE_DHT11)
-			DHT_Data->Temperature = Temp_byte1;
-			DHT_Data->Humidity = Rh_byte1;
-		#endif
+    DHT_Start();
+    Presence = DHT_Check_Response();
 
-		#if defined(TYPE_DHT22)
-			DHT_Data->Temperature = ((Temp_byte1<<8)|Temp_byte2);
-			DHT_Data->Humidity = ((Rh_byte1<<8)|Rh_byte2);
-		#endif
-	}
+    if (Presence == 1) {
+        // Odczytujemy dane z czujnika
+        Rh_byte1 = DHT_Read();
+        Rh_byte2 = DHT_Read();
+        Temp_byte1 = DHT_Read();
+        Temp_byte2 = DHT_Read();
+        SUM = DHT_Read();
+
+        // Debugowanie odczytanych danych
+        sprintf(uart_buf2, "RH1=%d, RH2=%d, T1=%d, T2=%d, SUM=%d\r\n",
+                Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2, SUM);
+        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+
+        // Sprawdzamy sumę kontrolną
+        if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
+            // Debugowanie, jeśli suma kontrolna się zgadza
+            sprintf(uart_buf2, "Checksum OK!\r\n");
+            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+
+            // Przekształcenie wartości na temperaturę i wilgotność
+            DHT_Data->Humidity = Rh_byte1 + (Rh_byte2 / 10.0);  // Wilgotność: 2 bajty
+            DHT_Data->Temperature = Temp_byte1 + (Temp_byte2 / 10.0);  // Temperatura: 2 bajty
+
+            // Wyświetlenie poprawnych danych
+            sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
+                    DHT_Data->Temperature, DHT_Data->Humidity);
+            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+        } else {
+            sprintf(uart_buf2, "Checksum error!\r\n");
+            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+        }
+    } else {
+        sprintf(uart_buf2, "No response from DHT sensor.\r\n");
+        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+    }
 }
-
-
