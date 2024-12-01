@@ -55,7 +55,7 @@ volatile uint32_t lastMotionTick = 0;
  struct lcd_disp disp;
 char bufor[50];
 
- char uart_buf[100];
+ char uart_buf2[100];
 
 /* USER CODE END PV */
 
@@ -136,20 +136,20 @@ int main(void)
 
 	  // Wyświetlanie tekstu
 
-  //  sprintf(uart_buf, "Temperature: %.1f°C, Humidity: %.1f%%\r\n",
+  // sprintf(uart_buf, "Temperature: %.1f°C, Humidity: %.1f%%\r\n",
     //    DHT11_Data.Temperature, DHT11_Data.Humidity);
 //HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
 //sprintf(uart_buf, "Temperature: %.2f, Humidity: %.2f\r\n",
              
-        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
 
     //16x2
-	   //sprintf((char *)disp.f_line, "Temp: %.1fC", Temperature);  // Pierwsza linia: temperatura
-       // sprintf((char *)disp.s_line, "Wilg: %.1f%%", Humidity); 
+	   sprintf((char *)disp.f_line, "Temp: %.1fC", Temperature);  // Pierwsza linia: temperatura
+        sprintf((char *)disp.s_line, "Wilg: %.1f%%", Humidity); 
           // Druga linia: wilgotność
   
-//HAL_Delay(500);
-	  	 // lcd_display(&disp);
+HAL_Delay(500);
+	  	  lcd_display(&disp);
 	  	
     //16x2
 
