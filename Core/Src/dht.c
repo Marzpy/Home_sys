@@ -100,6 +100,34 @@ void DHT_Start (void)
 	Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
 }
 
+// void DHT_Start(void)
+// {
+//  /****************************************************/
+// HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 1);     //Initialize with Data pin HIGH
+ 
+//  HAL_Delay(300);
+// /****************************************************/
+// Set_Pin_Output (DHT_PORT, DHT_PIN);  // set the pin as output
+// HAL_GPIO_WritePin (DHT_PORT, DHT_PIN, 0);   // pull the pin low
+// HAL_Delay(18);     //wait for 18ms
+// HAL_GPIO_WritePin (DHT_PORT, DHT_PIN, 1);   // pull the pin high
+// delay(20) ;  //20us
+// Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
+
+// }
+//#if defined(TYPE_DHT11)
+//	delay (18000);   // wait for 18ms
+//#endif
+
+//#if defined(TYPE_DHT22)
+//	delay (1200);  // >1ms delay
+//#endif
+
+   // HAL_GPIO_WritePin (DHT_PORT, DHT_PIN, 1);   // pull the pin high
+   // delay (20);   // wait for 30us
+	//Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
+//}
+
 uint8_t DHT_Check_Response(void)
 {
     uint8_t Response = 0;
@@ -115,9 +143,9 @@ uint8_t DHT_Check_Response(void)
     }
     while ((HAL_GPIO_ReadPin(DHT_PORT, DHT_PIN)));   // czekaj na niski stan
 
-     Wyrzucenie na UART dla debugowania
-    sprintf(uart_buf, "Response: %d\r\n", Response);
-    HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
+    // Wyrzucenie na UART dla debugowania
+    //sprintf(uart_buf, "Response: %d\r\n", Response);
+    //HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf, strlen(uart_buf), HAL_MAX_DELAY);
 
     return Response;
 }
@@ -142,8 +170,7 @@ uint8_t DHT_Read (void)
 
 void DHT_GetData(DHT_DataTypedef *DHT_Data)
 {
-    char uart_buf[100]; 
-    char uart_buf3[100];
+
     char uart_buf2[100]; // Bufor tekstowy dla UART
 
     DHT_Start();
