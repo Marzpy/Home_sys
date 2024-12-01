@@ -31,10 +31,10 @@
 35	511	7547626947603516	CMakeFiles/Home_sys.dir/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c.obj	b98a7106be57bfee
 2030	3150	7547624754638659	CMakeFiles/Home_sys.dir/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c.obj	b1121a9c46cc45e6
 1228	2311	7544259559636970	CMakeFiles/Home_sys.dir/Core/Src/syscalls.c.obj	9ef175c676a9177c
-<<<<<<< HEAD
 71	1984	7547624735054420	CMakeFiles/Home_sys.dir/Core/Src/i2c.c.obj	9015d527f4e7e778
 99	2109	7547624735333659	CMakeFiles/Home_sys.dir/Core/Src/i2c_lcd.c.obj	507e328d82deb398
 31	528	7547666628214819	CMakeFiles/Home_sys.dir/Core/Src/dht.c.obj	7a97ce8a38b17db7
+<<<<<<< HEAD
 =======
 80	1172	7544946047315445	CMakeFiles/Home_sys.dir/Core/Src/i2c.c.obj	9015d527f4e7e778
 90	1333	7544946047415174	CMakeFiles/Home_sys.dir/Core/Src/i2c_lcd.c.obj	507e328d82deb398
@@ -74,3 +74,5 @@
 27	919	7544259547628839	CMakeFiles/Home_sys.dir/Core/Src/i2c.c.obj	9015d527f4e7e778
 37	1038	7544259547728589	CMakeFiles/Home_sys.dir/Core/Src/i2c_lcd.c.obj	507e328d82deb398
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+>>>>>>> parent of 848b49f (Merge branch 'main' of https://github.com/Marzpy/Home_sys)
