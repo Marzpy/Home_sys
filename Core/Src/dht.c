@@ -1,6 +1,6 @@
-#include "dht11.h"
+#include "dht.h"
 #include "main.h"
-#include "tim.h"
+//#include "tim.h"
 #include <stdio.h>   // dla sprintf
 #include <string.h> 
 #define TYPE_DHT11    // define according to your sensor
@@ -18,7 +18,7 @@ extern UART_HandleTypeDef huart2;
 uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
 uint16_t SUM; uint8_t Presence = 0;
 
-#include "dht11.h"
+
 extern char uart_buf[50];
 uint32_t DWT_Delay_Init(void)
 {
@@ -142,15 +142,13 @@ uint8_t DHT_Read (void)
 
 void DHT_GetData(DHT_DataTypedef *DHT_Data)
 {
-    char uart_buf[100]; 
-    char uart_buf3[100];
     char uart_buf2[100]; // Bufor tekstowy dla UART
 
     DHT_Start();
     Presence = DHT_Check_Response();
 
     if (Presence == 1) {
-        // Odczytujemy dane z czujnika
+        // Odczyt danych z czujnika
         Rh_byte1 = DHT_Read();
         Rh_byte2 = DHT_Read();
         Temp_byte1 = DHT_Read();
@@ -162,17 +160,23 @@ void DHT_GetData(DHT_DataTypedef *DHT_Data)
                 Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2, SUM);
         HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
 
-        // Sprawdzamy sumę kontrolną
+        // Sprawdzanie sumy kontrolnej
         if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
-            // Debugowanie, jeśli suma kontrolna się zgadza
-            sprintf(uart_buf2, "Checksum OK!\r\n");
-            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+            // Przekształcenie danych w zależności od typu czujnika
+#ifdef TYPE_DHT11
+            DHT_Data->Humidity = Rh_byte1;  // RH1 zawiera całą część wilgotności
+            DHT_Data->Temperature = Temp_byte1;  // T1 zawiera całą część temperatury
+#elif defined(TYPE_DHT22)
+            DHT_Data->Humidity = ((Rh_byte1 << 8) | Rh_byte2) / 10.0;  // 16-bit wilgotność
+            DHT_Data->Temperature = ((Temp_byte1 << 8) | Temp_byte2) / 10.0;  // 16-bit temperatura
 
-            // Przekształcenie wartości na temperaturę i wilgotność
-            DHT_Data->Humidity = Rh_byte1 + (Rh_byte2 / 10.0);  // Wilgotność: 2 bajty
-            DHT_Data->Temperature = Temp_byte1 + (Temp_byte2 / 10.0);  // Temperatura: 2 bajty
+            // Obsługa wartości ujemnych (DHT22 używa bitu znaku)
+            if (Temp_byte1 & 0x80) {
+                DHT_Data->Temperature *= -1;  // Jeśli MSB ustawione, temperatura ujemna
+            }
+#endif
 
-            // Wyświetlenie poprawnych danych
+            // Wyświetlenie danych
             sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
                     DHT_Data->Temperature, DHT_Data->Humidity);
             HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);

@@ -49,9 +49,12 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/main.c
     Core/Src/i2c.c
-    
+    Core/Src/dht.c
     Core/Src/gpio.c
+    Core/Src/tim.c
+    Core/Src/hcsr04.c
     Core/Src/i2c_lcd.c
+    Core/Src/menu_lcd.c
     # Add other user-defined sources here
 )
 

@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -27,6 +28,10 @@
 #include "i2c_lcd.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
+#include "dht.h"
+#include "hcsr04.h"
+#include "menu_lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,6 +41,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define HCSR04_TRIGGER_TIMER		htim3
+#define HCSR04_ECHO_TIMER			htim3
+#define HCSR04_TRIGGER_CHANNEL		TIM_CHANNEL_3
+#define HCSR04_ECHO_START_CHANNEL 	TIM_CHANNEL_1
+#define HCSR04_ECHO_STOP_CHANNEL 	TIM_CHANNEL_2
 
 /* USER CODE END PD */
 
@@ -50,6 +60,12 @@
 volatile uint8_t motionDetected = 0;
 volatile uint32_t lastMotionTick = 0; 
  struct lcd_disp disp;
+ char uart_buf2[50];
+char lcd_buf[16];
+ HCSR04_t HCSR04;
+float Distance_f;
+uint16_t Distance_u16;
+//struct lcd_disp lcd_display;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -60,7 +76,10 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+DHT_DataTypedef DHT11_Data;
+float Temperature, Humidity;
+MenuState currentMenuState = MENU_MAIN;
+//Menu_HandleInput(); 
 /* USER CODE END 0 */
 
 /**
@@ -94,30 +113,80 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  
+  HCSR04_Init(&HCSR04, &HCSR04_TRIGGER_TIMER, &HCSR04_ECHO_TIMER, HCSR04_TRIGGER_CHANNEL, HCSR04_ECHO_START_CHANNEL, HCSR04_ECHO_STOP_CHANNEL);
+ 
 
-
-
- disp.addr = (0x27 << 1);
-   disp.bl = true;
-   lcd_init(&disp);
-   sprintf((char *)disp.f_line, "To 1. linia");
-   sprintf((char *)disp.s_line, "a to druga linia");
-   lcd_display(&disp);
+  disp.addr = (0x27 << 1);
+  disp.bl = true;
+  lcd_init(&disp);
+  Menu_Display(currentMenuState);
+  // sprintf((char *)disp.f_line, " Uruchamianie ");
+   // sprintf((char *)disp.s_line, " Wyświetlacza");
+   //lcd_display(&disp);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_Delay(1000);
+
+     HCSR04_GetDistanceFloat(&HCSR04, &Distance_f);
+	  HCSR04_GetDistanceInteger(&HCSR04, &Distance_u16);
+	  HAL_Delay(10);
+
+
+DHT_GetData(&DHT11_Data);
+  	  Temperature = DHT11_Data.Temperature;
+	  Humidity = DHT11_Data.Humidity;
+	 // HAL_Delay(3000);
+ Menu_HandleInput();
+Menu_Display(currentMenuState);
+      
+   // HAL_Delay(100);
+
+/*
+// Tworzenie tekstu do wyświetlenia w pierwszej linii
+sprintf(uart_buf2, "Temp: %.1fC", Temperature);
+// Kopiowanie do pierwszej linii wyświetlacza
+strncpy((char *)disp.f_line, uart_buf2, 16); // Maksymalnie 16 znaków
+
+// Tworzenie tekstu do wyświetlenia w drugiej linii
+sprintf(uart_buf2, "Wilg: %.1f%%", Humidity);
+// Kopiowanie do drugiej linii wyświetlacza
+
+strncpy((char *)disp.s_line, uart_buf2, 16); */
+// Debugowanie na UART (opcjonalnie)
+
+
+// Przygotowanie tekstu do wyświetlenia na LCD
+
+/// WYSWIETLANIE ODLEGLOSCI
+// sprintf(lcd_buf, "Dist: %.2f cm", Distance_f);  // Odległość w formacie zmiennoprzecinkowym
+// strncpy((char *)disp.f_line, lcd_buf, 16);      // Wpisanie do pierwszej linii LCD
+
+// sprintf(lcd_buf, "Dist: %d cm", Distance_u16);  // Odległość w formacie całkowitym
+// strncpy((char *)disp.s_line, lcd_buf, 16);  
+
+// HAL_Delay(800);
+// 	  	  lcd_display(&disp);
+        ////Koniec odleglosci
+  
+    /*
+    
+	  
 
 	  // Wyświetlanie tekstu
-	  sprintf((char *)disp.f_line, "Test linii 1");
-	  	  sprintf((char *)disp.s_line, "wyswietlanie 2");
-	  	  HAL_Delay(500);
-	  	  lcd_display(&disp);
+	//  sprintf((char *)disp.f_line, "Test linii 1");
+	  	//  sprintf((char *)disp.s_line, "wyswietlanie 2");
+ sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
+                    Temperature, Humidity);
+           sprintf((uart_buf2)disp.f_line, "Temperature %.1f" );
 
+	  	  
+*/
 
     /* USER CODE END WHILE */
 
@@ -166,9 +235,11 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C1
+                              |RCC_PERIPHCLK_TIM34;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
+  PeriphClkInit.Tim34ClockSelection = RCC_TIM34CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -176,6 +247,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim == HCSR04.htim_echo)
+	{
+		HCSR04_InterruptHandler(&HCSR04);
+	}
+}
+
+
 
 /*
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
