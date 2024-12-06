@@ -55,6 +55,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/hcsr04.c
     Core/Src/i2c_lcd.c
     Core/Src/menu_lcd.c
+    Core/Src/spi.c
     # Add other user-defined sources here
 )
 

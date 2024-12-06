@@ -70,6 +70,8 @@ void Error_Handler(void);
 #define HCSR04_Echo_GPIO_Port GPIOA
 #define HCSR04_Trigger_Pin GPIO_PIN_0
 #define HCSR04_Trigger_GPIO_Port GPIOB
+#define SD_CS_Pin GPIO_PIN_10
+#define SD_CS_GPIO_Port GPIOB
 #define button2_Pin GPIO_PIN_7
 #define button2_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
