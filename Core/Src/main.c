@@ -18,9 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "fatfs.h"
 #include "i2c.h"
-#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -67,6 +65,13 @@ char lcd_buf[16];
  HCSR04_t HCSR04;
 float Distance_f;
 uint16_t Distance_u16;
+FRESULT FatFsResult;
+FATFS SdFatFs;
+FIL SdCardFile;
+
+uint8_t bytes;
+char data[128];
+
 //struct lcd_disp lcd_display;
 /* USER CODE END PV */
 
@@ -116,8 +121,6 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
-  MX_SPI3_Init();
-  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   
   HCSR04_Init(&HCSR04, &HCSR04_TRIGGER_TIMER, &HCSR04_ECHO_TIMER, HCSR04_TRIGGER_CHANNEL, HCSR04_ECHO_START_CHANNEL, HCSR04_ECHO_STOP_CHANNEL);
