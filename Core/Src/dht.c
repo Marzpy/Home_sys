@@ -1,32 +1,60 @@
-#include "dht11.h"
+#include "dht.h"
+#include "main.h"
+//#include "tim.h"
+#include <stdio.h>   // dla sprintf
+#include <string.h> 
+#define TYPE_DHT11    // define according to your sensor
+//#define TYPE_DHT22
 
-int DHT11_init(struct DHT11_Dev* dev, GPIO_TypeDef* port, uint16_t pin) {
-	TIM_TimeBaseInitTypeDef TIM_TimBaseStructure;
-	GPIO_InitTypeDef GPIO_InitStructure;
-	
-	dev->port = port;
-	dev->pin = pin;
 
-	//Initialise TIMER2
-	TIM_TimBaseStructure.TIM_Period = 71999999 - 1;
-	TIM_TimBaseStructure.TIM_Prescaler = 72;
-	TIM_TimBaseStructure.TIM_ClockDivision = 0;
-	TIM_TimBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseInit(TIM2, &TIM_TimBaseStructure);
-	TIM_Cmd(TIM2, ENABLE);
-	
-	//Initialise GPIO DHT11
-	GPIO_InitStructure.GPIO_Pin = dev->pin;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(dev->port, &GPIO_InitStructure);
-	
-	return 0;
+#define DHT_PORT GPIOA
+#define DHT_PIN GPIO_PIN_7
+
+
+extern UART_HandleTypeDef huart2;
+
+/*******************************************     NO CHANGES AFTER THIS LINE      ****************************************************/
+
+uint8_t Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2;
+uint16_t SUM; uint8_t Presence = 0;
+
+
+extern char uart_buf[50];
+uint32_t DWT_Delay_Init(void)
+{
+  /* Disable TRC */
+  CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk; // ~0x01000000;
+  /* Enable TRC */
+  CoreDebug->DEMCR |=  CoreDebug_DEMCR_TRCENA_Msk; // 0x01000000;
+
+  /* Disable clock cycle counter */
+  DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
+  /* Enable  clock cycle counter */
+  DWT->CTRL |=  DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
+
+  /* Reset the clock cycle counter value */
+  DWT->CYCCNT = 0;
+
+     /* 3 NO OPERATION instructions */
+     __ASM volatile ("NOP");
+     __ASM volatile ("NOP");
+  __ASM volatile ("NOP");
+
+  /* Check if clock cycle counter has started */
+     if(DWT->CYCCNT)
+     {
+       return 0; /*clock cycle counter started*/
+     }
+     else
+  {
+    return 1; /*clock cycle counter not started*/
+  }
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> add-features
 __STATIC_INLINE void delay(volatile uint32_t microseconds)
 {
   uint32_t clk_cycle_start = DWT->CYCCNT;
@@ -76,6 +104,7 @@ void DHT_Start (void)
 	Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
 }
 
+<<<<<<< HEAD
 // void DHT_Start(void)
 // {
 //  /****************************************************/
@@ -104,6 +133,8 @@ void DHT_Start (void)
 	//Set_Pin_Input(DHT_PORT, DHT_PIN);    // set as input
 //}
 
+=======
+>>>>>>> add-features
 uint8_t DHT_Check_Response(void)
 {
     uint8_t Response = 0;
@@ -137,6 +168,7 @@ uint8_t DHT_Read (void)
 		if (!(HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN)))   // if the pin is low
 		{
 			i&= ~(1<<(7-j));   // write 0
+<<<<<<< HEAD
 		}
 		else i|= (1<<(7-j));  // if the pin is high, write 1
 		while ((HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN)));  // wait for the pin to go low
@@ -280,8 +312,13 @@ int DHT11_read(struct DHT11_Dev* dev) {
 			//if > 30us it's 1
 			if(temp > 40)
 				data[j] = data[j]+1;
+=======
+>>>>>>> add-features
 		}
+		else i|= (1<<(7-j));  // if the pin is high, write 1
+		while ((HAL_GPIO_ReadPin (DHT_PORT, DHT_PIN)));  // wait for the pin to go low
 	}
+<<<<<<< HEAD
 	
 	//verify the Checksum
 	if(data[4] != (data[0] + data[2]))
@@ -297,3 +334,57 @@ int DHT11_read(struct DHT11_Dev* dev) {
 =======
 }
 >>>>>>> parent of 848b49f (Merge branch 'main' of https://github.com/Marzpy/Home_sys)
+=======
+	return i;
+}
+
+void DHT_GetData(DHT_DataTypedef *DHT_Data)
+{
+    char uart_buf2[100]; // Bufor tekstowy dla UART
+
+    DHT_Start();
+    Presence = DHT_Check_Response();
+
+    if (Presence == 1) {
+        // Odczyt danych z czujnika
+        Rh_byte1 = DHT_Read();
+        Rh_byte2 = DHT_Read();
+        Temp_byte1 = DHT_Read();
+        Temp_byte2 = DHT_Read();
+        SUM = DHT_Read();
+
+        // Debugowanie odczytanych danych
+        sprintf(uart_buf2, "RH1=%d, RH2=%d, T1=%d, T2=%d, SUM=%d\r\n",
+                Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2, SUM);
+        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+
+        // Sprawdzanie sumy kontrolnej
+        if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
+            // Przekształcenie danych w zależności od typu czujnika
+#ifdef TYPE_DHT11
+            DHT_Data->Humidity = Rh_byte1;  // RH1 zawiera całą część wilgotności
+            DHT_Data->Temperature = Temp_byte1;  // T1 zawiera całą część temperatury
+#elif defined(TYPE_DHT22)
+            DHT_Data->Humidity = ((Rh_byte1 << 8) | Rh_byte2) / 10.0;  // 16-bit wilgotność
+            DHT_Data->Temperature = ((Temp_byte1 << 8) | Temp_byte2) / 10.0;  // 16-bit temperatura
+
+            // Obsługa wartości ujemnych (DHT22 używa bitu znaku)
+            if (Temp_byte1 & 0x80) {
+                DHT_Data->Temperature *= -1;  // Jeśli MSB ustawione, temperatura ujemna
+            }
+#endif
+
+            // Wyświetlenie danych
+            sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
+                    DHT_Data->Temperature, DHT_Data->Humidity);
+            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+        } else {
+            sprintf(uart_buf2, "Checksum error!\r\n");
+            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+        }
+    } else {
+        sprintf(uart_buf2, "No response from DHT sensor.\r\n");
+        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+    }
+}
+>>>>>>> add-features

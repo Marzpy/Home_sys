@@ -55,8 +55,12 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+<<<<<<< HEAD
 extern DMA_HandleTypeDef hdma_i2c1_tx;
 extern I2C_HandleTypeDef hi2c1;
+=======
+extern TIM_HandleTypeDef htim3;
+>>>>>>> add-features
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -200,6 +204,7 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+<<<<<<< HEAD
   * @brief This function handles DMA1 channel6 global interrupt.
   */
 void DMA1_Channel6_IRQHandler(void)
@@ -225,6 +230,47 @@ void I2C1_EV_IRQHandler(void)
   /* USER CODE BEGIN I2C1_EV_IRQn 1 */
 
   /* USER CODE END I2C1_EV_IRQn 1 */
+=======
+  * @brief This function handles EXTI line4 interrupt.
+  */
+void EXTI4_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_IRQn 0 */
+
+  /* USER CODE END EXTI4_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(PIR_Pin);
+  /* USER CODE BEGIN EXTI4_IRQn 1 */
+
+  /* USER CODE END EXTI4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+
+  /* USER CODE END TIM3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+>>>>>>> add-features
 }
 
 /* USER CODE BEGIN 1 */

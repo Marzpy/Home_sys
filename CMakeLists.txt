@@ -49,11 +49,19 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/main.c
     Core/Src/i2c.c
-    Core/Src/dma.c
-    
+    Core/Src/dht.c
     Core/Src/gpio.c
-   
+    Core/Src/tim.c
+    Core/Src/hcsr04.c
     Core/Src/i2c_lcd.c
+    Core/Src/menu_lcd.c
+    Core/Src/spi.c
+    Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c
+    Middlewares/Third_Party/FatFs/src/ff_gen_drv.c  
+    Middlewares/Third_Party/FatFs/src
+    FATFS/App/fatfs.c
+    FATFS/Target/user_diskio.c
+    FATFS/Target/user_diskio_spi.c
     # Add other user-defined sources here
 )
 
@@ -63,6 +71,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     Drivers/STM32F3xx_HAL_Driver/Inc
     Drivers/CMSIS/Device/ST/STM32F3xx/Include
     Drivers/CMSIS/Include
+    FATFS/App
+    FATFS/Target
+    Middlewares/Third_Party/FatFs/src
     # Add other include directories here
 )
 

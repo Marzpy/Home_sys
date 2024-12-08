@@ -20,6 +20,7 @@ I2C1.Timing=0x00201D2B
 KeepUserPlacement=false
 Mcu.CPN=STM32F303RET6
 Mcu.Family=STM32F3
+<<<<<<< HEAD
 Mcu.IP0=I2C1
 Mcu.IP1=NVIC
 Mcu.IP2=RCC
@@ -33,10 +34,22 @@ Mcu.IPNb=7
 Mcu.IP4=USART2
 Mcu.IPNb=5
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+Mcu.IP0=FATFS
+Mcu.IP1=I2C1
+Mcu.IP2=NVIC
+Mcu.IP3=RCC
+Mcu.IP4=SPI2
+Mcu.IP5=SYS
+Mcu.IP6=TIM3
+Mcu.IP7=USART2
+Mcu.IPNb=8
+>>>>>>> add-features
 Mcu.Name=STM32F303R(D-E)Tx
 Mcu.Package=LQFP64
 Mcu.Pin0=PC13
 Mcu.Pin1=PC14-OSC32_IN
+<<<<<<< HEAD
 <<<<<<< HEAD
 Mcu.Pin10=PA14
 Mcu.Pin11=PB3
@@ -51,11 +64,30 @@ Mcu.Pin11=PB8
 Mcu.Pin12=PB9
 Mcu.Pin13=VP_SYS_VS_Systick
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+Mcu.Pin10=PA7
+Mcu.Pin11=PB0
+Mcu.Pin12=PB10
+Mcu.Pin13=PB13
+Mcu.Pin14=PB14
+Mcu.Pin15=PB15
+Mcu.Pin16=PC7
+Mcu.Pin17=PA13
+Mcu.Pin18=PA14
+Mcu.Pin19=PB3
+>>>>>>> add-features
 Mcu.Pin2=PC15-OSC32_OUT
+Mcu.Pin20=PB6
+Mcu.Pin21=PB8
+Mcu.Pin22=PB9
+Mcu.Pin23=VP_FATFS_VS_Generic
+Mcu.Pin24=VP_SYS_VS_Systick
+Mcu.Pin25=VP_TIM3_VS_indirect_ch1
 Mcu.Pin3=PF0-OSC_IN
 Mcu.Pin4=PF1-OSC_OUT
 Mcu.Pin5=PA2
 Mcu.Pin6=PA3
+<<<<<<< HEAD
 Mcu.Pin7=PA5
 <<<<<<< HEAD
 Mcu.Pin8=PA7
@@ -66,6 +98,12 @@ Mcu.Pin8=PA13
 Mcu.Pin9=PA14
 Mcu.PinsNb=14
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+Mcu.Pin7=PA4
+Mcu.Pin8=PA5
+Mcu.Pin9=PA6
+Mcu.PinsNb=26
+>>>>>>> add-features
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32F303RETx
@@ -74,6 +112,8 @@ MxDb.Version=DB.6.0.121
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:true\:true\:false\:false
 NVIC.DMA1_Channel6_IRQn=true\:0\:0\:false\:false\:true\:false\:true\:true
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:true\:false\:false
+NVIC.EXTI15_10_IRQn=true\:0\:0\:false\:false\:true\:true\:true\:true
+NVIC.EXTI4_IRQn=true\:0\:0\:false\:false\:true\:true\:true\:true
 NVIC.ForceEnableDMAVector=true
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:true\:true\:false\:false
 NVIC.I2C1_EV_IRQn=true\:0\:0\:false\:false\:true\:true\:true\:true
@@ -83,6 +123,7 @@ NVIC.PendSV_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.PriorityGroup=NVIC_PRIORITYGROUP_0
 NVIC.SVCall_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false
 NVIC.SysTick_IRQn=true\:0\:0\:true\:false\:true\:true\:true\:false
+NVIC.TIM3_IRQn=true\:0\:0\:false\:false\:true\:true\:true\:true
 NVIC.UsageFault_IRQn=true\:0\:0\:false\:false\:true\:true\:false\:false
 PA13.GPIOParameters=GPIO_Label
 PA13.GPIO_Label=TMS
@@ -110,6 +151,10 @@ PA3.GPIO_Speed=GPIO_SPEED_FREQ_LOW
 PA3.Locked=true
 PA3.Mode=Asynchronous
 PA3.Signal=USART2_RX
+PA4.GPIOParameters=GPIO_Label
+PA4.GPIO_Label=PIR
+PA4.Locked=true
+PA4.Signal=GPXTI4
 PA5.GPIOParameters=GPIO_Speed,GPIO_PuPd,GPIO_Label,GPIO_Mode
 PA5.GPIO_Label=LD2 [Green Led]
 PA5.GPIO_Mode=GPIO_MODE_OUTPUT_PP
@@ -118,6 +163,7 @@ PA5.GPIO_Speed=GPIO_SPEED_FREQ_LOW
 PA5.Locked=true
 PA5.Signal=GPIO_Output
 <<<<<<< HEAD
+<<<<<<< HEAD
 PA7.GPIOParameters=PinState,GPIO_ModeDefaultOutputPP
 PA7.GPIO_ModeDefaultOutputPP=GPIO_MODE_OUTPUT_PP
 PA7.Locked=true
@@ -125,10 +171,42 @@ PA7.PinState=GPIO_PIN_SET
 PA7.Signal=GPIO_Output
 =======
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+PA6.GPIOParameters=GPIO_Label
+PA6.GPIO_Label=HCSR04_Echo
+PA6.Locked=true
+PA6.Signal=S_TIM3_CH1
+PA7.GPIOParameters=PinState
+PA7.Locked=true
+PA7.PinState=GPIO_PIN_SET
+PA7.Signal=GPIO_Output
+PB0.GPIOParameters=GPIO_Label
+PB0.GPIO_Label=HCSR04_Trigger
+PB0.Locked=true
+PB0.Signal=S_TIM3_CH3
+PB10.GPIOParameters=GPIO_Label
+PB10.GPIO_Label=SD_CS
+PB10.Locked=true
+PB10.Signal=GPIO_Output
+PB13.Mode=Full_Duplex_Master
+PB13.Signal=SPI2_SCK
+PB14.Mode=Full_Duplex_Master
+PB14.Signal=SPI2_MISO
+PB15.Mode=Full_Duplex_Master
+PB15.Signal=SPI2_MOSI
+>>>>>>> add-features
 PB3.GPIOParameters=GPIO_Label
 PB3.GPIO_Label=SWO
 PB3.Locked=true
 PB3.Signal=SYS_JTDO-TRACESWO
+<<<<<<< HEAD
+=======
+PB6.GPIOParameters=GPIO_PuPd,GPIO_Label
+PB6.GPIO_Label=button1
+PB6.GPIO_PuPd=GPIO_PULLUP
+PB6.Locked=true
+PB6.Signal=GPIO_Input
+>>>>>>> add-features
 PB8.Locked=true
 PB8.Mode=I2C
 PB8.Signal=I2C1_SCL
@@ -146,6 +224,11 @@ PC14-OSC32_IN.Signal=RCC_OSC32_IN
 PC15-OSC32_OUT.Locked=true
 PC15-OSC32_OUT.Mode=LSE-External-Oscillator
 PC15-OSC32_OUT.Signal=RCC_OSC32_OUT
+PC7.GPIOParameters=GPIO_PuPd,GPIO_Label
+PC7.GPIO_Label=button2
+PC7.GPIO_PuPd=GPIO_PULLUP
+PC7.Locked=true
+PC7.Signal=GPIO_Input
 PF0-OSC_IN.Locked=true
 PF0-OSC_IN.Mode=HSE-External-Clock-Source
 PF0-OSC_IN.Signal=RCC_OSC_IN
@@ -183,10 +266,14 @@ ProjectManager.UAScriptAfterPath=
 ProjectManager.UAScriptBeforePath=
 ProjectManager.UnderRoot=true
 <<<<<<< HEAD
+<<<<<<< HEAD
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_USART2_UART_Init-USART2-false-HAL-true,4-MX_I2C1_Init-I2C1-false-HAL-true,5-MX_TIM2_Init-TIM2-false-HAL-true,6-MX_TIM4_Init-TIM4-false-HAL-true
 =======
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_USART2_UART_Init-USART2-false-HAL-true,5-MX_I2C1_Init-I2C1-false-HAL-true
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_USART2_UART_Init-USART2-false-HAL-true,4-MX_I2C1_Init-I2C1-false-HAL-true,5-MX_TIM3_Init-TIM3-false-HAL-true,6-MX_SPI2_Init-SPI2-false-HAL-true,7-MX_FATFS_Init-FATFS-false-HAL-false
+>>>>>>> add-features
 RCC.ADC12outputFreq_Value=72000000
 RCC.ADC34outputFreq_Value=72000000
 RCC.AHBFreq_Value=72000000
@@ -237,10 +324,33 @@ RCC.USBFreq_Value=72000000
 RCC.VCOOutput2Freq_Value=8000000
 SH.GPXTI13.0=GPIO_EXTI13
 SH.GPXTI13.ConfNb=1
-USART2.IPParameters=VirtualMode-Asynchronous
+SH.GPXTI4.0=GPIO_EXTI4
+SH.GPXTI4.ConfNb=1
+SH.S_TIM3_CH1.0=TIM3_CH1,Input_Capture1_from_TI1
+SH.S_TIM3_CH1.ConfNb=1
+SH.S_TIM3_CH3.0=TIM3_CH3,PWM Generation3 CH3
+SH.S_TIM3_CH3.ConfNb=1
+SPI2.CalculateBaudRate=18.0 MBits/s
+SPI2.DataSize=SPI_DATASIZE_8BIT
+SPI2.Direction=SPI_DIRECTION_2LINES
+SPI2.IPParameters=VirtualType,Mode,Direction,CalculateBaudRate,DataSize
+SPI2.Mode=SPI_MODE_MASTER
+SPI2.VirtualType=VM_MASTER
+TIM3.Channel-Input_Capture1_from_TI1=TIM_CHANNEL_1
+TIM3.Channel-Input_Capture2_from_TI1_63=TIM_CHANNEL_2
+TIM3.Channel-PWM\ Generation3\ CH3=TIM_CHANNEL_3
+TIM3.ICPolarity_CH2=TIM_INPUTCHANNELPOLARITY_FALLING
+TIM3.IPParameters=Channel-Input_Capture1_from_TI1,Channel-Input_Capture2_from_TI1_63,Prescaler,ICPolarity_CH2,Channel-PWM Generation3 CH3,Pulse-PWM Generation3 CH3
+TIM3.Prescaler=72
+TIM3.Pulse-PWM\ Generation3\ CH3=11
+USART2.BaudRate=115200
+USART2.IPParameters=VirtualMode-Asynchronous,BaudRate
 USART2.VirtualMode-Asynchronous=VM_ASYNC
+VP_FATFS_VS_Generic.Mode=User_defined
+VP_FATFS_VS_Generic.Signal=FATFS_VS_Generic
 VP_SYS_VS_Systick.Mode=SysTick
 VP_SYS_VS_Systick.Signal=SYS_VS_Systick
+<<<<<<< HEAD
 <<<<<<< HEAD
 VP_TIM2_VS_ClockSourceINT.Mode=Internal
 VP_TIM2_VS_ClockSourceINT.Signal=TIM2_VS_ClockSourceINT
@@ -248,5 +358,9 @@ VP_TIM4_VS_ClockSourceINT.Mode=Internal
 VP_TIM4_VS_ClockSourceINT.Signal=TIM4_VS_ClockSourceINT
 =======
 >>>>>>> parent of dcbb533 (Add dht11)
+=======
+VP_TIM3_VS_indirect_ch1.Mode=Input_Capture2_from_TI1_63
+VP_TIM3_VS_indirect_ch1.Signal=TIM3_VS_indirect_ch1
+>>>>>>> add-features
 board=NUCLEO-F303RE
 boardIOC=true
