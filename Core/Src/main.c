@@ -75,6 +75,12 @@ FIL SdCardFile;
 uint8_t bytes;
 char data[128];
 
+
+float global_temperature = 0.0f;
+float global_humidity = 0.0f;
+float global_distance = 0.0f;
+float global_time_move= 0.0f;
+
 //struct lcd_disp lcd_display;
 /* USER CODE END PV */
 
@@ -106,6 +112,148 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -203,10 +351,19 @@ int main(void)
 	  HCSR04_GetDistanceInteger(&HCSR04, &Distance_u16);
 	  HAL_Delay(10);
 
-
 DHT_GetData(&DHT11_Data);
   	  Temperature = DHT11_Data.Temperature;
 	  Humidity = DHT11_Data.Humidity;
+
+global_distance=HCSR04_GetDistanceFloat(&HCSR04, &Distance_f);
+global_humidity=Humidity;
+global_temperature=Temperature;  
+
+sprintf(uart_buf2, "dyst: %.2f \r\n", global_distance);
+
+// Przesłanie przez UART
+HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), 10);
+
 	 // HAL_Delay(3000);
  Menu_HandleInput();
 Menu_Display(currentMenuState);

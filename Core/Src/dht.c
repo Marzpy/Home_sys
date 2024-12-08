@@ -158,7 +158,7 @@ void DHT_GetData(DHT_DataTypedef *DHT_Data)
         // Debugowanie odczytanych danych
         sprintf(uart_buf2, "RH1=%d, RH2=%d, T1=%d, T2=%d, SUM=%d\r\n",
                 Rh_byte1, Rh_byte2, Temp_byte1, Temp_byte2, SUM);
-        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+      //  HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
 
         // Sprawdzanie sumy kontrolnej
         if (SUM == (Rh_byte1 + Rh_byte2 + Temp_byte1 + Temp_byte2)) {
@@ -179,13 +179,13 @@ void DHT_GetData(DHT_DataTypedef *DHT_Data)
             // Wyświetlenie danych
             sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
                     DHT_Data->Temperature, DHT_Data->Humidity);
-            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+          //  HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
         } else {
             sprintf(uart_buf2, "Checksum error!\r\n");
-            HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+          //  HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
         }
     } else {
         sprintf(uart_buf2, "No response from DHT sensor.\r\n");
-        HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
+       // HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), HAL_MAX_DELAY);
     }
 }
