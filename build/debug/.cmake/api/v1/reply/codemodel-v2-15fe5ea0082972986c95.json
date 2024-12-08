@@ -66,11 +66,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Home_sys::@6890427a1f51a3e7e1df",
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/codemodel-v2-e1bdff5c8e473ded3f70.json
-					"jsonFile" : "target-Home_sys-Debug-2d28b64fff1dd8793777.json",
-========
-					"jsonFile" : "target-Home_sys-Debug-4ed3e970d320bdc30f94.json",
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/codemodel-v2-cdf5d7c13dce196ff3d3.json
+					"jsonFile" : "target-Home_sys-Debug-3b328290e80c3f20b18b.json",
 					"name" : "Home_sys",
 					"projectIndex" : 0
 				}

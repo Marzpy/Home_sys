@@ -15,9 +15,12 @@
 float global_temperature = 0.0f;
 float global_humidity = 0.0f;
 float global_distance = 0.0f;
+float global_time_move= 0.0f;
 //MenuState currentMenuState = MENU_MAIN;
 
 extern HCSR04_t HCSR04;
+extern motion_duration;
+
 //struct lcd_disp disp2;
 extern struct lcd_disp disp;
 
@@ -50,7 +53,9 @@ void Menu_Display(MenuState state) {
             break;
 
         default:
-            strncpy((char *)disp.f_line, "Unknown State", 16);
+            sprintf(lcd_buf3, "Dist: %.2f cm", global_time_move);
+            strncpy((char *)disp.f_line, lcd_buf3, 16);
+
             strncpy((char *)disp.s_line, " ", 16);
             break;
     }

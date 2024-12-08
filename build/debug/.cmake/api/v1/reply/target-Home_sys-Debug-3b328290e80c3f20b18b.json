@@ -33,21 +33,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
-				"line" : 76,
-========
-				"line" : 73,
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				"line" : 86,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
-				"line" : 62,
-========
-				"line" : 59,
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				"line" : 69,
 				"parent" : 0
 			},
 			{
@@ -101,6 +93,18 @@
 					"path" : "D:/praca/projekty/Home_sys/Home_sys/Drivers/CMSIS/Include"
 				},
 				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/FATFS/App"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/FATFS/Target"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/Middlewares/Third_Party/FatFs/src"
+				},
+				{
 					"backtrace" : 2,
 					"path" : "D:/praca/projekty/Home_sys/Home_sys/cmake/stm32cubemx/../../Core/Inc"
 				},
@@ -143,7 +147,6 @@
 				8,
 				9,
 				10,
-				11,
 				12,
 				13,
 				14,
@@ -158,15 +161,18 @@
 				23,
 				24,
 				25,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
 				26,
 				27,
 				28,
 				29,
-				30
-========
-				26
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37
 			]
 		},
 		{
@@ -210,6 +216,18 @@
 					"path" : "D:/praca/projekty/Home_sys/Home_sys/Drivers/CMSIS/Include"
 				},
 				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/FATFS/App"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/FATFS/Target"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "D:/praca/projekty/Home_sys/Home_sys/Middlewares/Third_Party/FatFs/src"
+				},
+				{
 					"backtrace" : 2,
 					"path" : "D:/praca/projekty/Home_sys/Home_sys/cmake/stm32cubemx/../../Core/Inc"
 				},
@@ -233,11 +251,7 @@
 			"language" : "ASM",
 			"sourceIndexes" : 
 			[
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
-				31
-========
-				27
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				38
 			]
 		}
 	],
@@ -281,7 +295,6 @@
 				8,
 				9,
 				10,
-				11,
 				12,
 				13,
 				14,
@@ -296,26 +309,26 @@
 				23,
 				24,
 				25,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
 				26,
 				27,
 				28,
 				29,
-				30
-========
-				26
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
-				31
-========
-				27
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+				11,
+				38
 			]
 		}
 	],
@@ -335,15 +348,12 @@
 		},
 		{
 			"backtrace" : 4,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/dht.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 4,
-========
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/gpio.c",
 			"sourceGroupIndex" : 0
@@ -351,7 +361,6 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
 			"path" : "Core/Src/tim.c",
 			"sourceGroupIndex" : 0
 		},
@@ -364,21 +373,57 @@
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
-========
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
 			"path" : "Core/Src/i2c_lcd.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-<<<<<<<< HEAD:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-2d28b64fff1dd8793777.json
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/menu_lcd.c",
 			"sourceGroupIndex" : 0
 		},
 		{
-========
->>>>>>>> e274d2cd9be1625b19b7ecee2b6e89d9b41f1075:build/debug/.cmake/api/v1/reply/target-Home_sys-Debug-4ed3e970d320bdc30f94.json
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/Third_Party/FatFs/src/ff_gen_drv.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "Middlewares/Third_Party/FatFs/src",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "FATFS/App/fatfs.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "FATFS/Target/user_diskio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "FATFS/Target/user_diskio_spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
 			"backtrace" : 2,
 			"compileGroupIndex" : 0,
 			"path" : "Core/Src/usart.c",

@@ -18,7 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "fatfs.h"
 #include "i2c.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -57,8 +59,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint8_t motionDetected = 0;
-volatile uint32_t lastMotionTick = 0; 
+volatile uint8_t motionStartTick = 0; //czas rozpoczęcia PIR
+volatile uint32_t motionDuration = 0; //czas trwania PIR
+volatile uint8_t motionInProgress = 0; //Flaga w toku
  struct lcd_disp disp;
  char uart_buf2[50];
 char lcd_buf[16];
@@ -121,6 +124,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
+  MX_SPI2_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   
   HCSR04_Init(&HCSR04, &HCSR04_TRIGGER_TIMER, &HCSR04_ECHO_TIMER, HCSR04_TRIGGER_CHANNEL, HCSR04_ECHO_START_CHANNEL, HCSR04_ECHO_STOP_CHANNEL);
@@ -130,6 +135,60 @@ int main(void)
   disp.bl = true;
   lcd_init(&disp);
   Menu_Display(currentMenuState);
+
+/*
+// FatFS mount init
+  //
+  FatFsResult = f_mount(&SdFatFs, "", 1);
+
+  //
+  // FatFS mount init error check
+  //
+  if(FatFsResult != FR_OK)
+  {
+  	  bytes = sprintf(data, "FatFS mount error.\n\r");
+  	  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
+  }
+  else
+  {
+  	  bytes = sprintf(data, "FatFS mounted.\n\r");
+  	  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
+
+  	  //
+  	  // Open file on SD for writing
+  	  //
+  	  FatFsResult = f_open(&SdCardFile, "test.txt", FA_WRITE|FA_OPEN_APPEND);
+
+  	  //
+  	  // File open error check
+  	  //
+  	  if(FatFsResult != FR_OK)
+  	  {
+  		  bytes = sprintf(data, "No test.txt file. Can't create.\n\r");
+  		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
+  	  }
+  	  else
+  	  {
+  		  bytes = sprintf(data, "File opened.\n\r");
+  		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
+
+  		  //
+		  //	Print something to this file
+		  //
+		  for(uint8_t i = 0; i < 10; i++)
+		  {
+			  f_printf(&SdCardFile, "Line number %d.\n", i);
+		  }
+
+		  //
+		  // Close file
+		  //
+		  FatFsResult = f_close(&SdCardFile);
+
+		  bytes = sprintf(data, "File closed.\n\r");
+		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
+*/
+
   // sprintf((char *)disp.f_line, " Uruchamianie ");
    // sprintf((char *)disp.s_line, " Wyświetlacza");
    //lcd_display(&disp);
@@ -265,20 +324,23 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 
 
 
-/*
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-//void EXTI0_IRQHandler(void) {
-{
-    if (GPIO_Pin == PIR_Pin)  // Jeśli przerwanie jest od czujnika PIR
-    {
-        if (HAL_GPIO_ReadPin(PIR_GPIO_Port, PIR_Pin) == GPIO_PIN_SET)
-        {
-            motionDetected = 1;                     // Ustaw flagę wykrycia ruchu
-            lastMotionTick = HAL_GetTick();         // Zapisz czas wykrycia ruchu
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    if (GPIO_Pin == PIR_Pin) {  // Jeśli przerwanie pochodzi od czujnika PIR
+        if (HAL_GPIO_ReadPin(PIR_GPIO_Port, PIR_Pin) == GPIO_PIN_SET) {
+            if (!motionInProgress) { // Ruch się rozpoczął
+                motionStartTick = HAL_GetTick();
+                motionInProgress = 1; 
+                HAL_GPIO_WritePin(LD2_GPIO_Port,LD2_Pin,GPIO_PIN_SET); // Ustawienie flagi
+            }
+        } else if (motionInProgress) { // Ruch zakończony
+            motionDuration = HAL_GetTick() - motionStartTick;
+            motionInProgress = 0;  // Zresetowanie flagi
+            // Możesz dodać kod do przetwarzania motionDuration, np. zapis na kartę SD
         }
     }
 }
-*/
 /*
 volatile uint32_t lastPirTick = 0;  // Czas ostatniego wyzwolenia przerwania
 
