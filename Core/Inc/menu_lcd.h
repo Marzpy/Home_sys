@@ -8,6 +8,7 @@ typedef enum{
     MENU_MAIN,
     MENU_SENSOR_1,
     MENU_SENSOR_2,
+    MENU_SENSOR_3,
 }MenuState;
 extern MenuState currentMenuState; 
 void Menu_Display(MenuState state);
