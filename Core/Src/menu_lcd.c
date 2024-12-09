@@ -28,7 +28,7 @@ char lcd_buf3[16];
 
 
 void Menu_Display(MenuState state) {
-      static uint32_t last_button1_press = 0;
+    static uint32_t last_button1_press = 0;
     static uint32_t last_button2_press = 0;
      // Bufor dla linii wyświetlacza
 //strncpy((char *)disp.f_line, "Main Menu", 16);
@@ -54,6 +54,13 @@ void Menu_Display(MenuState state) {
             strncpy((char *)disp.s_line, " ", 16); // Pusta linia
             break;
 
+         case MENU_SENSOR_3:
+            sprintf(lcd_buf3, "Time: %.2f s", global_time_move);
+            strncpy((char *)disp.f_line, lcd_buf3, 16);
+
+            strncpy((char *)disp.s_line, " ", 16); // Pusta linia
+            break;
+
         default:
             sprintf(lcd_buf3, "Dist: %.2f cm", global_time_move);
             strncpy((char *)disp.f_line, lcd_buf3, 16);
@@ -70,7 +77,7 @@ void Menu_HandleInput(void) {
         // currentMenuState = (currentMenuState + 1) % 3;  // Przełącz na kolejny stan
         currentMenuState = MENU_SENSOR_1;
         Menu_Display(currentMenuState);
-        HAL_Delay(1000);  // Debouncing
+        HAL_Delay(300);  // Debouncing
     }
 
     if (HAL_GPIO_ReadPin(button2_GPIO_Port, button2_Pin) == GPIO_PIN_RESET) {
@@ -78,12 +85,12 @@ void Menu_HandleInput(void) {
         currentMenuState = MENU_SENSOR_2;
         
         Menu_Display(currentMenuState);
-        HAL_Delay(1000);  // Debouncing
+        HAL_Delay(300);  // Debouncing
     }
      if ((HAL_GPIO_ReadPin(button1_GPIO_Port, button1_Pin) == GPIO_PIN_RESET) && (HAL_GPIO_ReadPin(button2_GPIO_Port, button2_Pin) == GPIO_PIN_RESET)) {
         // currentMenuState = (currentMenuState + 1) % 3;  // Przełącz na kolejny stan
-        currentMenuState = MENU_SENSOR_1;
+        currentMenuState = MENU_SENSOR_3;
         Menu_Display(currentMenuState);
-        HAL_Delay(1000);  // Debouncing
+        HAL_Delay(300);  // Debouncing
     }
 }

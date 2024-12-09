@@ -114,146 +114,6 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -284,58 +144,7 @@ int main(void)
   lcd_init(&disp);
   Menu_Display(currentMenuState);
 
-/*
-// FatFS mount init
-  //
-  FatFsResult = f_mount(&SdFatFs, "", 1);
-
-  //
-  // FatFS mount init error check
-  //
-  if(FatFsResult != FR_OK)
-  {
-  	  bytes = sprintf(data, "FatFS mount error.\n\r");
-  	  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
-  }
-  else
-  {
-  	  bytes = sprintf(data, "FatFS mounted.\n\r");
-  	  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
-
-  	  //
-  	  // Open file on SD for writing
-  	  //
-  	  FatFsResult = f_open(&SdCardFile, "test.txt", FA_WRITE|FA_OPEN_APPEND);
-
-  	  //
-  	  // File open error check
-  	  //
-  	  if(FatFsResult != FR_OK)
-  	  {
-  		  bytes = sprintf(data, "No test.txt file. Can't create.\n\r");
-  		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
-  	  }
-  	  else
-  	  {
-  		  bytes = sprintf(data, "File opened.\n\r");
-  		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
-
-  		  //
-		  //	Print something to this file
-		  //
-		  for(uint8_t i = 0; i < 10; i++)
-		  {
-			  f_printf(&SdCardFile, "Line number %d.\n", i);
-		  }
-
-		  //
-		  // Close file
-		  //
-		  FatFsResult = f_close(&SdCardFile);
-
-		  bytes = sprintf(data, "File closed.\n\r");
-		  HAL_UART_Transmit(&huart2, (uint8_t*)data, bytes, 1000);
-*/
+  //Log_Data_To_SD()''
 
   // sprintf((char *)disp.f_line, " Uruchamianie ");
    // sprintf((char *)disp.s_line, " Wyświetlacza");
@@ -368,48 +177,8 @@ HAL_UART_Transmit(&huart2, (uint8_t *)uart_buf2, strlen(uart_buf2), 10);
  Menu_HandleInput();
 Menu_Display(currentMenuState);
       
-   // HAL_Delay(100);
-
-/*
-// Tworzenie tekstu do wyświetlenia w pierwszej linii
-sprintf(uart_buf2, "Temp: %.1fC", Temperature);
-// Kopiowanie do pierwszej linii wyświetlacza
-strncpy((char *)disp.f_line, uart_buf2, 16); // Maksymalnie 16 znaków
-
-// Tworzenie tekstu do wyświetlenia w drugiej linii
-sprintf(uart_buf2, "Wilg: %.1f%%", Humidity);
-// Kopiowanie do drugiej linii wyświetlacza
-
-strncpy((char *)disp.s_line, uart_buf2, 16); */
-// Debugowanie na UART (opcjonalnie)
 
 
-// Przygotowanie tekstu do wyświetlenia na LCD
-
-/// WYSWIETLANIE ODLEGLOSCI
-// sprintf(lcd_buf, "Dist: %.2f cm", Distance_f);  // Odległość w formacie zmiennoprzecinkowym
-// strncpy((char *)disp.f_line, lcd_buf, 16);      // Wpisanie do pierwszej linii LCD
-
-// sprintf(lcd_buf, "Dist: %d cm", Distance_u16);  // Odległość w formacie całkowitym
-// strncpy((char *)disp.s_line, lcd_buf, 16);  
-
-// HAL_Delay(800);
-// 	  	  lcd_display(&disp);
-        ////Koniec odleglosci
-  
-    /*
-    
-	  
-
-	  // Wyświetlanie tekstu
-	//  sprintf((char *)disp.f_line, "Test linii 1");
-	  	//  sprintf((char *)disp.s_line, "wyswietlanie 2");
- sprintf(uart_buf2, "Temperature: %.1f, Humidity: %.1f\r\n",
-                    Temperature, Humidity);
-           sprintf((uart_buf2)disp.f_line, "Temperature %.1f" );
-
-	  	  
-*/
 
     /* USER CODE END WHILE */
 
@@ -498,24 +267,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         }
     }
 }
-/*
-volatile uint32_t lastPirTick = 0;  // Czas ostatniego wyzwolenia przerwania
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-    if (GPIO_Pin == PIR_Pin)  // Jeśli przerwanie jest od czujnika PIR
-    {
-        uint32_t currentTick = HAL_GetTick();
 
-        // Mechanizm anty-szumowy (debouncing) - ignoruj kolejne przerwania przez 500 ms
-        if ((currentTick - lastPirTick) > 500)
-        {
-            HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);  // Przełącz stan diody LED
-            lastPirTick = currentTick;                  // Zapisz czas wyzwolenia
-        }
-    }
-}
-*/
 
 /* USER CODE END 4 */
 
