@@ -62,7 +62,7 @@ void Menu_Display(MenuState state) {
             break;
 
         default:
-            sprintf(lcd_buf3, "Dist: %.2f cm", global_time_move);
+            sprintf(lcd_buf3, "Menu:", global_time_move);
             strncpy((char *)disp.f_line, lcd_buf3, 16);
 
             strncpy((char *)disp.s_line, " ", 16);
