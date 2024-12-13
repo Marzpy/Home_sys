@@ -144,8 +144,9 @@ int main(void)
   lcd_init(&disp);
   Menu_Display(currentMenuState);
 
-  //Log_Data_To_SD()''
 
+
+  //Log_Data_To_SD()''
   // sprintf((char *)disp.f_line, " Uruchamianie ");
    // sprintf((char *)disp.s_line, " Wyświetlacza");
    //lcd_display(&disp);
@@ -242,7 +243,7 @@ void SystemClock_Config(void)
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim == HCSR04.htim_echo)
+	if(htim == HCSR04.htim_echo)// sprawdzenie czasu czujnika hcsr04
 	{
 		HCSR04_InterruptHandler(&HCSR04);
 	}
@@ -263,7 +264,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
         } else if (motionInProgress) { // Ruch zakończony
             motionDuration = HAL_GetTick() - motionStartTick;
             motionInProgress = 0;  // Zresetowanie flagi
-            // Możesz dodać kod do przetwarzania motionDuration, np. zapis na kartę SD
+           
         }
     }
 }
